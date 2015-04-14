@@ -1,16 +1,12 @@
-#Use this script to create the database tables
-#This script does NOT populate the tables with any data
-
 import mysql.connector
 
 #Define database variables
-DATABASE_USER = 'rest'
+DATABASE_USER = 'root'
 DATABASE_HOST = '127.0.0.1'
-DATABASE_NAME = 'rest'
-DATABASE_PASSWORD = 'rest'
+DATABASE_NAME = 'foodND'
 
 #Create connection to MySQL
-cnx = mysql.connector.connect(user=DATABASE_USER, host=DATABASE_HOST, password=DATABASE_PASSWORD)
+cnx = mysql.connector.connect(user=DATABASE_USER, host=DATABASE_HOST)
 cursor = cnx.cursor()
 
 ###################################
@@ -21,7 +17,7 @@ createDB = (("CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARACTER SET latin1") % 
 cursor.execute(createDB)
 
 #########################
-## Switch to feednd DB ##
+## Switch to foodnd DB ##
 #########################
 
 useDB = (("USE %s") % (DATABASE_NAME))
@@ -31,86 +27,95 @@ cursor.execute(useDB)
 ## Drop all tables first ##
 ###########################
 
-dropTableQuery = ("DROP TABLE IF EXISTS dishes")
+#Users
+dropTableQuery = ("DROP TABLE IF EXISTS users")
 cursor.execute(dropTableQuery)
 
-dropTableQuery = ("DROP TABLE IF EXISTS sections")
+#Software
+dropTableQuery = ("DROP TABLE IF EXISTS software")
 cursor.execute(dropTableQuery)
 
-
-#Hours
-dropTableQuery = ("DROP TABLE IF EXISTS hours")
+#Developer
+dropTableQuery = ("DROP TABLE IF EXISTS developer")
 cursor.execute(dropTableQuery)
 
-
-#Restaurants
-dropTableQuery = ("DROP TABLE IF EXISTS restaurants")
+#Comment
+dropTableQuery = ("DROP TABLE IF EXISTS comment")
 cursor.execute(dropTableQuery)
 
+#Vote
+dropTableQuery = ("DROP TABLE IF EXISTS vote")
+cursor.execute(dropTableQuery)
 
 ########################
 ## Create tables next ##
 ########################
 
+#Users
+createTableQuery = ('''CREATE TABLE users (
+                                                user_id INT NOT NULL AUTO_INCREMENT,
+                                                user_name VARCHAR(32) NOT NULL,
+                                                user_pwd VARCHAR(41) NOT NULL,
+                                                PRIMARY KEY(user_id));'''
 
-#Restaurants
-createTableQuery = ('''CREATE TABLE restaurants (
-						restId VARCHAR(20) NOT NULL,
-						name VARCHAR(45) NOT NULL,
-						address VARCHAR(100) NOT NULL,
-						city VARCHAR(45) NOT NULL,
-						state VARCHAR(20) NOT NULL,
-						zip VARCHAR(10) NOT NULL,
-						phone VARCHAR(20) NOT NULL,
-						lat DECIMAL(10,8) NOT NULL,
-						lng DECIMAL(11,8) NOT NULL,
-                                                url VARCHAR(100),
-						PRIMARY KEY (restId));'''
-                    )
+                   )
 cursor.execute(createTableQuery)
 
-#Hours
-createTableQuery = ('''CREATE TABLE hours (
-						restId VARCHAR(20) NOT NULL,
-                                                day enum ('M','T','W','TH','F','S','SU') not null,
-                                                open TIME NOT NULL,
-                                                close TIME NOT NULL,
-                                                PRIMARY KEY(restId,day,open),
-                                                FOREIGN KEY(restId)
-                                                REFERENCES restaurants(restId)
-                                                ON DELETE CASCADE
-                                          )'''
-                    )
+#Software
+createTableQuery = ('''CREATE TABLE software (
+                                                s_id INT NOT NULL AUTO_INCREMENT,
+                                                s_name VARCHAR(32) NOT NULL,
+                                                s_shortname VARCHAR(10),
+                                                s_url VARCHAR(50),
+                                                s_sum VARCHAR(200),
+                                                s_desc VARCHAR(500),
+                                                PRIMARY KEY(s_id));'''
+                   )
 cursor.execute(createTableQuery)
 
-createTableQuery = (
-			'''
-			CREATE TABLE sections (
-				sectId VARCHAR(20) NOT NULL,
-				restId VARCHAR(20) NOT NULL,
-				name VARCHAR(100) NOT NULL,
-				PRIMARY KEY(sectId),
-				FOREIGN KEY(restId) REFERENCES restaurants(restId) ON DELETE CASCADE
-			);
-			'''
-)
-cursor.execute(createTableQuery)
-
-createTableQuery = ('''
-	CREATE TABLE dishes(
-		dishId VARCHAR(20) NOT NULL,
-		name VARCHAR(100) NOT NULL,
-		sectId VARCHAR(20) NOT NULL,
-		description VARCHAR(255),
-		price FLOAT(5,2),
-		PRIMARY KEY(dishId),
-		FOREIGN KEY(sectId) REFERENCES sections(sectId)
-	);
-''')
+#Developer
+createTableQuery = ('''CREATE TABLE developer (
+                                                dev_id INT NOT NULL AUTO_INCREMENT,
+                                                dev_name VARCHAR(32) NOT NULL,
+                                                s_id INT,
+                                                dev_user VARCHAR(32),
+                                                dev_url VARCHAR(50),
+                                                PRIMARY KEY(dev_id),
+                                                FOREIGN KEY(s_id)
+                                                REFERENCES software(s_id)
+                                                ON DELETE CASCADE);'''
+                   )
 cursor.execute(createTableQuery)
 
 
+#Comment
+createTableQuery = ('''CREATE TABLE comment (
+                                                com_id INT NOT NULL AUTO_INCREMENT,
+                                                user_id INT NOT NULL,
+                                                com_text VARCHAR(150) NOT NULL,
+                                                com_time VARCHAR(41) NOT NULL,
+                                                com_rank INT NOT NULL,
+                                                PRIMARY KEY(com_id),
+                                                FOREIGN KEY (user_id)
+                                                REFERENCES users(user_id)
+                                                ON DELETE CASCADE);'''
+                   )
+cursor.execute(createTableQuery)
 
-#Commit the data and close the connection to MySQL
+#Vote
+createTableQuery = ('''CREATE TABLE vote (
+                                                vote_id INT NOT NULL AUTO_INCREMENT,
+                                                com_id INT NOT NULL,
+                                                user_id INT NOT NULL,
+                                                rank INT NOT NULL,
+                                                PRIMARY KEY(vote_id),
+                                                FOREIGN KEY(com_id)
+                                                REFERENCES comment(com_id)
+                                                ON DELETE CASCADE,
+                                                FOREIGN KEY(user_id)
+                                                REFERENCES users(user_id)
+                                                ON DELETE CASCADE);'''
+                   )
+cursor.execute(createTableQuery)
 cnx.commit()
 cnx.close()
