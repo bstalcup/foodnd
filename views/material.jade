@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  link(rel='stylesheet', type='text/css', href='/stylesheets/materialize.min.css')
+  nav
+    ul.right.hide-on-med-and-down
+      li
+        a(href='#!') First Sidebar Link
+        a(href='#!') Second Sidebar Link
+  h1= title
+  p Welcome to #{title}
+

@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  script(src="/javascripts/login.js" defer)
+  div.container
+    div.row
+      div.col.s12.l6
+        div.card
+          div.card-content
+            span.card-title.black-text Log into an existing account
+            form.row#login-form
+              div.input-field.col.s12
+                input(type="text")#username.validate
+                label(for="username") Username
+              div.input-field.col.s12
+                input(type="password")#password.validate
+                label(for="password") Password
+              button.btn.light-blue.darken-2(type="submit") Log in
+              div#message
+      div.col.s12.l6
+        div.card
+          div.card-content
+            span.card-title.black-text Sign up for an account
+            form.row#signup-form
+              div.input-field.col.s12
+                input(type="text",required)#signup-username.validate
+                label(for="signup-username") Username
+              div.input-field.col.s12
+                input(type="password",required)#signup-password.validate
+                label(for="signup-password") Password
+              div.input-field.col.s12
+                input(type="password",required)#signup-confirm.validate
+                label(for="signup-confirm") Confirm
+              button(type="submit").btn.align-right.green Sign up
+              div#message
+              

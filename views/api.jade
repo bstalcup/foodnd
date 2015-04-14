@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  div.container
+    h1 Results:
+    div.row
+      for rest,i in response.results
+        div.col.s12.l6
+          div.card
+            div.card-content
+              span.card-title
+                a.header(href='/restaurants/#{rest.restId}') #{rest.name}
+              p #{rest.city} | #{rest.lat} | #{rest.lng}
+              a.dropdown-button.btn.light-blue.darken-2(href="#" data-activates="dropdown#{i}") View Hours
+              ul.dropdown-content(id="dropdown#{i}")
+                for hour in rest.hours
+                  li <a> #{hour.day} : #{hour.open} - #{hour.close} </a>
+                else
+                  li <a class="disabled"> Sorry, hours not available </a>
+            div.card-action
+              a(href='/restaurants/#{rest.restId}') View Restaurant
+              span Phone: #{rest.phone}

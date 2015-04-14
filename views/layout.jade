@@ -1,0 +1,34 @@
+doctype html
+html
+  head
+    
+    title= title
+    link(rel='stylesheet', type='text/css', href='/stylesheets/materialize.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    script(src='https://code.jquery.com/jquery-2.1.3.min.js' defer)
+    script(src='/javascripts/materialize.min.js' defer)
+    script(src='/javascripts/main.js' defer)
+    nav.light-blue.darken-2
+      div.container
+        ul.right.hide-on-med-and-down
+          li
+            a(href='/home') Home
+          li
+            a(href='/login') Login
+          li
+            a(href='/restaurants') Restaurants
+          li
+            a(href='/api') API
+        ul#slide-out.side-nav
+          li
+            a(href='/home') Home
+          li
+            a(href='/login') Login
+          li
+            a(href='/restaurants') Restaurants
+          li
+            a(href='/api') API
+        a(href='#', data-activates='slide-out').button-collapse
+          i.mdi-navigation-menu
+    block content

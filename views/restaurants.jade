@@ -1,0 +1,33 @@
+extends layout
+
+block content
+  div.container
+    h1 Results:
+    ul.collapsible(data-collapsible="accordion")
+      each section in response['results']
+        li
+          div.collapsible-header
+            |#{section['section']}
+          div.collapsible-body(style="background: #FFF")
+             div.row
+              div.container
+                for rest in section['dishes']
+                  div.col.s12.l6
+                    ul.collection.z-depth-1
+                      a.collection-item.dish-open(data-id="#{rest.dishId}") <strong>#{rest.name}</strong>
+                      - if (rest.description !== null) {
+                        li.collection-item #{rest.description}
+                      - } else { 
+                        li.collection-item No description available
+                      - }
+                      - if (rest.price !== null) {
+                        li.collection-item.green $ #{rest.price)
+                      - } else {
+                        li.collection-item.grey No price available
+                      - }
+  div#modal1.modal
+    div.modal-content
+      h4 Modal Header
+      p A bunch of Text
+    div.modal-footer
+      a#order-button.btn-flat.waves-effect.waves-green Order
