@@ -1,7 +1,7 @@
 import time
 import json
 
-f = open('projects.txt', 'r')
+f = open('output.txt', 'r')
 
 lines = f.readlines()
 
