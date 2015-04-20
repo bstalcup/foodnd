@@ -9,10 +9,10 @@ import re
 
 
 #Define database variables
-DATABASE_USER = 'rest'
-DATABASE_HOST = 'localhost'
-DATABASE_NAME = 'rest'
-DATABASE_PASSWORD = 'rest'
+DATABASE_USER = 'foodnd'
+DATABASE_HOST = '127.0.0.1'
+DATABASE_NAME = 'foodnd'
+DATABASE_PASSWORD = 'foodnd'
 
 #Create connection to MySQL
 cnx = mysql.connector.connect(user=DATABASE_USER, host=DATABASE_HOST, database=DATABASE_NAME, password=DATABASE_PASSWORD)
@@ -26,11 +26,11 @@ inputFile.close()
 
 #Loop through the restaurants and add info and menu to database
 for key, restaurant in restaurantDict.iteritems():
-	
+	print restaurant, key	
 	###############################
 	## Add restaurant info first ##
 	###############################
-
+'''
 	inputDict = {
 		'restId' : key,
 		'name' : restaurant['name'],
@@ -49,8 +49,9 @@ for key, restaurant in restaurantDict.iteritems():
 	#Insert this info into the database
 	addRestaurant = ("INSERT INTO restaurants (restId, name, address, city, state, zip, phone, lat, lng, url) VALUES (%(restId)s,  %(name)s, %(address)s, %(city)s, %(state)s, %(zip)s, %(phone)s, %(lat)s, %(lng)s, %(url)s)")
 	cursor.execute(addRestaurant,inputDict)
-
+'''
 #Insert hours (hardcoded) for some restaurants
+'''
         for i in restaurant['open_hours']:
 		for j in restaurant['open_hours'][i]:
 			dayz = ''
@@ -106,7 +107,7 @@ for key, restaurant in restaurantDict.iteritems():
 						addDish = ("insert into dishes (dishId, name, sectId) values (%(dishId)s, %(name)s, %(sectId)s)")
 					cursor.execute(addDish,dishDict)
 					
-
 cnx.commit()
 cnx.close()
+'''
 
