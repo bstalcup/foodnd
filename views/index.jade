@@ -1,8 +1,27 @@
 extends layout
 
 block content
-  div.container
-    div.row
-      div.col.s12
-        div.card-panel
-          p.center-align Click any of the links in the menu to begin exploring FoodND
+  script(src='/build/js/index.js' defer)
+  div.valign-wrapper.green
+    div.landing
+      div.row
+        div.col.s10.offset-s1
+          h1.superheader.valign.center.white-text FOODND    
+      div.row
+        p.valign.center.white-text Welcome to FOODND, where you can assess software
+      div.row
+        
+        div.col.s10.l4.offset-s1.offset-l4
+          div.card.white.z-depth-4(style='margin-bottom:10em;')
+            div.card-content
+              span.card-title.black-text Search for a software
+            div.card-action
+              div.row
+                div.col.s12.input-field
+                  i.mdi-action-search.prefix
+                  input#search_field.validate(type="text")
+                  label(for="search_field") Search
+      div.row.container
+        div.col.s12.card-panel.white#introtext(style="opacity:0")
+          h3 What is FOODND?
+          p.flow-text Though the name might be oddly deceiving, FOODND has nothing to do with Food!  FOODND actually stands for Free Online Organization and Delineations of New Developments.  You can see why we wanted to abbreviate it!  It's a way to rate, review, and discuss various software distrobutions.

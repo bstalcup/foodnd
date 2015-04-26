@@ -1,4 +1,10 @@
 var express = require('express');
+var fs = require('fs');
+
+var privateKey = fs.readFileSync('food-key.pem', 'utf8')
+var certificate = fs.readFileSync('23d1b9b749b4f6fc.crt', 'utf8')
+var credentials = {key: privateKey, cert: certificate};
+
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -7,6 +13,7 @@ var bodyParser = require('body-parser');
 var mysql      = require('mysql');
 var util = require('util');
 var http = require('http');
+var https = require('https');
 var passport = require('passport'), 
   LocalStrategy = require('passport-local').Strategy;
 var cookieParser = require('cookie-parser');
@@ -14,9 +21,9 @@ var session = require('express-session');
 
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'rest',
-  password : 'rest',
-  database : 'rest'
+  user     : 'root',
+  password : '',
+  database : 'foodnd'
 });
 
 connection.connect();
@@ -100,7 +107,9 @@ app.use(function(err, req, res, next) {
     });
 });
 
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
 
-http.createServer(app).listen(80);
-
+httpServer.listen(80);
+httpsServer.listen(443);
 //module.exports = app;

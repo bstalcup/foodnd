@@ -19,17 +19,29 @@ cnx = mysql.connector.connect(user=DATABASE_USER, host=DATABASE_HOST, database=D
 cursor = cnx.cursor()
 
 #Load json file
-inputFile = open('restaurantData.json','r')
+inputFile = open('outputshortc.json','r')
 restaurantDict = json.load(inputFile)
 inputFile.close()
 
 
 #Loop through the restaurants and add info and menu to database
 for key, restaurant in restaurantDict.iteritems():
-	print restaurant, key	
+	for s in restaurant:
+		if s['icon_url'] != None:
+			print s['shortname'] + ',' + s['icon_url']
 	###############################
 	## Add restaurant info first ##
 	###############################
+		inputDict = {
+			's_name' : s['name'],
+			's_shortname' : s['shortname'],
+			's_url': s['external_homepage'],
+			's_desc': s['short_description'],
+			's_sum': s['summary']
+		}
+
+		addRestaurant = ("INSERT INTO software (s_name, s_shortname, s_url, s_desc, s_sum) VALUES (%(s_name)s,  %(s_shortname)s, %(s_url)s, %(s_desc)s, %(s_sum)s)")
+		cursor.execute(addRestaurant,inputDict);
 '''
 	inputDict = {
 		'restId' : key,
@@ -106,8 +118,8 @@ for key, restaurant in restaurantDict.iteritems():
 					else:
 						addDish = ("insert into dishes (dishId, name, sectId) values (%(dishId)s, %(name)s, %(sectId)s)")
 					cursor.execute(addDish,dishDict)
-					
+				'''	
 cnx.commit()
 cnx.close()
-'''
+
 

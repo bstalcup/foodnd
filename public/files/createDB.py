@@ -2,10 +2,12 @@ import mysql.connector
 
 #Define database variables
 DATABASE_USER = 'root'
-DATABASE_HOST = '127.0.0.1'
-DATABASE_NAME = 'foodND'
+DATABASE_HOST = 'localhost'
+DATABASE_NAME = 'foodnd'
+DATABASE_PASSWORD = 'password'
 
 #Create connection to MySQL
+#cnx = mysql.connector.connect(user=DATABASE_USER, host=DATABASE_HOST, password=DATABASE_PASSWORD)
 cnx = mysql.connector.connect(user=DATABASE_USER, host=DATABASE_HOST)
 cursor = cnx.cursor()
 
@@ -54,7 +56,7 @@ cursor.execute(dropTableQuery)
 #Users
 createTableQuery = ('''CREATE TABLE users (
                                                 user_id INT NOT NULL AUTO_INCREMENT,
-                                                user_name VARCHAR(32) NOT NULL,
+                                                user_name VARCHAR(32) NOT NULL UNIQUE,
                                                 user_pwd VARCHAR(41) NOT NULL,
                                                 PRIMARY KEY(user_id));'''
 
@@ -72,12 +74,13 @@ createTableQuery = ('''CREATE TABLE software (
                                                 PRIMARY KEY(s_id));'''
                    )
 cursor.execute(createTableQuery)
+print "after soft"
 
 #Developer
 createTableQuery = ('''CREATE TABLE developer (
                                                 dev_id INT NOT NULL AUTO_INCREMENT,
                                                 dev_name VARCHAR(32) NOT NULL,
-                                                s_id INT,
+                                                s_id INT NOT NULL,
                                                 dev_user VARCHAR(32),
                                                 dev_url VARCHAR(50),
                                                 PRIMARY KEY(dev_id),
@@ -86,7 +89,7 @@ createTableQuery = ('''CREATE TABLE developer (
                                                 ON DELETE CASCADE);'''
                    )
 cursor.execute(createTableQuery)
-
+print "after dev"
 
 #Comment
 createTableQuery = ('''CREATE TABLE comment (
@@ -95,13 +98,15 @@ createTableQuery = ('''CREATE TABLE comment (
                                                 com_text VARCHAR(150) NOT NULL,
                                                 com_time VARCHAR(41) NOT NULL,
                                                 com_rank INT NOT NULL,
+                                                s_id INT NOT NULL,
                                                 PRIMARY KEY(com_id),
                                                 FOREIGN KEY (user_id)
                                                 REFERENCES users(user_id)
-                                                ON DELETE CASCADE);'''
+                                                ON DELETE CASCADE,
+                                                FOREIGN KEY (s_id) REFERENCES software(s_id) ON DELETE CASCADE);'''
                    )
 cursor.execute(createTableQuery)
-
+print "after com"
 #Vote
 createTableQuery = ('''CREATE TABLE vote (
                                                 vote_id INT NOT NULL AUTO_INCREMENT,

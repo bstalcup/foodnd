@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  $('.dropdown-button').dropdown({
+/*  $('.dropdown-button').dropdown({
       inDuration: 300,
       outDuration: 225,
       constrain_width: false, // Does not change width of dropdown to that of the activator
@@ -20,6 +20,6 @@ $(document).ready(function(){
       console.log($(this).attr('data-id'));
       $.ajax( {url: "http://ec2-54-152-114-24.compute-1.amazonaws.com/api/orders/36d50aa1e8902d42e698/dishes/" + $(this).attr('data-id'), type: "PUT", data: {"qty":4} }).done(function(data){if(data.status === "success"){toast('Dish added to order',4000)} else {toast('Error, could not add dish to order')}});
       $('#modal1').closeModal();
-    });
+    });*/
   $(".button-collapse").sideNav();
-  });
+});
