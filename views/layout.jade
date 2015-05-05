@@ -4,28 +4,42 @@ html
     meta(name="viewport", content="width=device-width, initial-scale=1")
     title= title
     link(rel='stylesheet', type='text/css', href='/build/css/main.css')
+    ul.dropdown-content(id="dropdown1")
+      li
+        a(href='/home') Home
+      li
+        a(href='/logout') Logout
   body
     script(src='/build/js/main.js' defer)
     nav.green.lighten-1
       div.container
+        ul.left.hide-on-med-and-down
+          li
+            a(href='/') FOODND
         ul.right.hide-on-med-and-down
+          if user
+            li
+              a.dropdown-button(href="#!", data-activates="dropdown1") User
+                i.mdi-navigation-arrow-drop-down.right
+          else
+            li
+              a(href='/login') Login
           li
-            a(href='/home') Home
-          li
-            a(href='/login') Login
-          li
-            a(href='/restaurants') Restaurants
-          li
-            a(href='/api') API
+            a(href='/software') Software
         ul#slide-out.side-nav
           li
-            a(href='/home') Home
+            a(href='/') FOODND
+          if user
+            li
+              a(href='/home') Home
+          else 
+            li
+              a(href='/login') Login
           li
-            a(href='/login') Login
-          li
-            a(href='/restaurants') Restaurants
-          li
-            a(href='/api') API
+            a(href='/software') Software
+          if user
+            li
+              a(href='/logout') Logout
         a(href='#', data-activates='slide-out').button-collapse
           i.mdi-navigation-menu
     block content

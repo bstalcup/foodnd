@@ -1,5 +1,35 @@
 extends layout
 
 block content
-  div.container
-    h1 Welcome, #{name}
+  -var comments = {"1" : { "comment" : "This sucks", "rating" : "0", "software" : "Google" }, "2" : { "comment" : "This is Great!!", "rating" : "1", "software" : "Bing" } }
+  div.valign-wrapper.green
+    div.container
+      div.row.center
+        div.center.card-panel.col.s8
+          h1.grey-text.text-darken-4 Welcome #{user.user_name}
+      div.row.center
+        li.divider.grey.darken-4
+      div.row.center
+        div.card.col.s12
+          h3.grey-text.text-darken-4 Your Comments
+        div.card-panel
+          div.container
+            ul.row
+              each entry in comments
+                if entry.rating == "0"
+                  li.card.col.s12.red.lighten-1
+                    h4 #{entry.software}
+                    div.card-panel
+                      p #{entry.comment}
+                else
+                  li.card.col.s12.blue.lighten-2
+                    h4 #{entry.software}
+                    div.card-panel
+                      p #{entry.comment}
+      div.row.center
+        li.divider.grey.darken-4
+      div.row.center
+        div.card.col.s12
+          h3.grey-text.text-darken-4 Your Other Possible Section
+          div.card-panel
+            p sample text

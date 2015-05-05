@@ -34,6 +34,7 @@ var users = require('./routes/users');
 var api = require('./routes/api');
 var login = require('./routes/login');
 var home = require('./routes/home');
+var software = require('./routes/software');
 
 var app = express();
 
@@ -59,6 +60,7 @@ app.use('/users', users);
 app.use('/api', api);
 app.use('/login', login);
 app.use('/home', home);
+app.use('/software', software);
 
 // catch 404 and forward to error handler
 /*app.use(function(req, res, next) {
@@ -73,7 +75,11 @@ app.use(function(req, res, next){
   res.status(404);
 
   if (req.accepts('html')) {
-    res.render('404', { url: req.url });
+    var data = {url: req.url};
+    if ( req.session.user != undefined ) {
+      data['user'] = req.session.user;
+    }
+    res.render('404', data);
     return;
   }
 

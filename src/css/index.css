@@ -28,7 +28,7 @@ input:focus:not([readonly]){
 }
 
 .autocomplete-selected .card-panel{
-  background-color: #82b1ff !important;
+  background-color: #00e676 !important;
 }
 .autocomplete-suggestion .card-panel {
   border-radius: 0;
