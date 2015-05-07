@@ -11,9 +11,16 @@ block content
         div.card-panel.col.s12
           h3.grey-text.text-darken-4 Your Comments
           div.container
-              ul.row
+              ul.row.all-comments
                 each entry in comments
-                  if entry.rank == "-1"
+                  if entry.software == null
+                    li.card.col.offset-s1.s10.review
+                      div.card-content.grey.lighten-1
+                        span.card-title.black-text None
+                          i.left.mdi-hardware-keyboard-control
+                      div.card-action.grey.lighten-2
+                        p.flow-text(style='text-align:left') There are no comments for this user. :(
+                  else if entry.rank == "-1"
                     li.card.col.s12.review(comment-data="#{entry.com_id}")
                       div.card-content.red.lighten-1
                         div.card-title
@@ -63,9 +70,3 @@ block content
                                   i.mdi-hardware-keyboard-arrow-down  
                       div.card-action.blue.lighten-4
                         p.flow-text(style='text-align:left') #{entry.text}
-      div.row.center
-        div.card.col.s12
-          h3.grey-text.text-darken-4 Your Other Possible Section
-          p sample text
-  p
-    !{JSON.stringify(comments)}

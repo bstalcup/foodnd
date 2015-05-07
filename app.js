@@ -36,6 +36,7 @@ var api = require('./routes/api');
 var login = require('./routes/login');
 var home = require('./routes/home');
 var software = require('./routes/software');
+var logout = require('./routes/logout');
 
 var app = express();
 
@@ -62,6 +63,7 @@ app.use('/api', api);
 app.use('/login', login);
 app.use('/home', home);
 app.use('/software', software);
+app.use('/logout', logout);
 
 // catch 404 and forward to error handler
 /*app.use(function(req, res, next) {

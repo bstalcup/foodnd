@@ -82,7 +82,15 @@ router.post('/users/create', function(req, res, next) {
             if (err) {
               res.json({status: "error", information: err, message:"SQL Error, try again", error_code: 9004, 'query': query});
             } else {
-              res.json({status: "success", message: "Username created", "user_id": rows[0]['AUTO_INCREMENT']-1, "response": response});
+              user_id = rows[0]['AUTO_INCREMENT']-1;
+              query = "select user_id, user_name from users where user_id = " + user_id + ";"
+              mysql.query(query, function(err, rows, fields){
+                if ( err ) {
+                } else {
+                  req.session.user = rows[0]
+                  res.json({status: "success", message: "Username created", "user_id": user_id, "response": response});
+                }
+              })
             }
           });
           //req.session.user = userId;
@@ -135,7 +143,7 @@ router.post('/comments', function(req, res, next){
         res.json({status: "error", information: err, message:"SQL Error, try again", error_code: 9006, 'query': query});
       } else {
         if(rows[0] == undefined) {
-          query = 'insert into comment (user_id, com_text, com_time, com_rank, s_id) values (' + req.session.user.user_id + ', \'' + req.body.text + '\', \'' + String(Date()) + '\', ' + req.body.rank + ', ' + req.body.software_id + ');'
+          query = 'insert into comment (user_id, com_text, com_time, com_rank, s_id) values (' + req.session.user.user_id + ', \'' + req.body.text.replace(/\'/g, "") + '\', \'' + String(Date()) + '\', ' + req.body.rank + ', ' + req.body.software_id + ');'
           mysql.query(query, function(err, response){
             if (err) {
               res.json({status: "error", information: err, message:"SQL Error, try again", error_code: 9006, 'query': query});

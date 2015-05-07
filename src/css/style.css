@@ -62,3 +62,6 @@ input:focus:not([readonly]), textarea:focus:not([readonly]){
 .vote.down {
   right:25px;
 }
+.all-comments li{
+  opacity:0;
+}

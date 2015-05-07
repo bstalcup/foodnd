@@ -1,4 +1,7 @@
 $(document).ready(function(){
+  Materialize.showStaggeredList(".all-comments");
+//  options = [{selector: 'all-comments', offset: 100, callback: 'Materialize.showStaggeredList(".all-comments")'}]
+//  Materialize.scrollFire(options)
   $(".button-collapse").sideNav();
   $('.search').autocomplete({
     serviceUrl: '/api/search/software/',
@@ -35,26 +38,27 @@ $(document).ready(function(){
     $('#modal').openModal();
   });
   $('#negative-comment').on('click', function(){
-    console.log('8j')
     var comment = $('#comment-text');
     $.post('/api/comments/', {software_id: parseInt(comment.attr('software-id')), rank: -1, text: comment.val()}).done(function(data){
        if ( data.status == 'success' ) {
           Materialize.toast('Comment created', 3000);
           $('#modal').closeModal();
+          $.post('/api/comments/' + data.comment_id  + '/vote', {rank: 1})
        } else {
           Materialize.toast(data.message, 4000);
        }
     });
   });
   $('#positive-comment').on('click', function(){
-    console.log('8j')
     var comment = $('#comment-text');
     $.post('/api/comments/', {software_id: parseInt(comment.attr('software-id')), rank: 1, text: comment.val()}).done(function(data){
        if ( data.status == 'success' ) {
           Materialize.toast('Comment created', 3000);
           $('#modal').closeModal();
+          $.post('/api/comments/' + data.comment_id  + '/vote', {rank: 1})
        } else {
           Materialize.toast(data.message, 4000);
+          $('#modal').closeModal();
        }
     });
   });
@@ -65,6 +69,7 @@ $(document).ready(function(){
       if ( i.hasClass('voted') ) {
         $.ajax({url: '/api/comments/' + com_id + '/vote', method: 'delete'}).done(function(data){
           Materialize.toast(data.message,3000)
+          if(data.status == 'error'){Materialize.toast(data.message,3000);return;};
           i.removeClass('voted');
           i.find('i').removeClass('red-text').removeClass('blue-text').removeClass('text-accent-1');
           i.parent().find('.score').html('<b class="black-text">' + data.total + '</b>')
@@ -81,6 +86,7 @@ $(document).ready(function(){
         }
         $.post('/api/comments/' + com_id + '/vote', { "rank" : rank} )
         .done(function(data){
+          if(data.status == 'error'){Materialize.toast(data.message,3000);return;}
           i.parent().find('.voted').removeClass('voted').find('i').removeClass('text-accent-1').removeClass('blue-text').removeClass('red-text');
           i.addClass('voted').find('i').addClass(classes);
           Materialize.toast(data.message, 3000);
@@ -98,6 +104,7 @@ $(document).ready(function(){
         }
         $.post('/api/comments/' + com_id + '/vote', { "rank" : rank} )
         .done(function(data){
+          if (data.status == 'error') {Materialize.toast(data.message,3000); return;}
           Materialize.toast(data.message, 3000);
           i.addClass('voted');
           i.find('i').addClass(classes);

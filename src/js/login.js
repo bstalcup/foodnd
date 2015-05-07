@@ -24,7 +24,7 @@ $(function(){
     formInfo['password'] = $(this).find('#signup-password').val();
     formInfo['confirm'] = $(this).find('#signup-confirm').val();
     if (formInfo.password == formInfo.confirm) {
-    $.ajax({url: '/api/users/validate', type: 'post', data: formInfo}).done(function(data){
+    $.ajax({url: '/api/users/create', type: 'post', data: formInfo}).done(function(data){
       var msg = ''
       if(data.status == 'error')
       {
