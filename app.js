@@ -1,9 +1,10 @@
 var express = require('express');
 var fs = require('fs');
+var constants = require('constants')
 
 var privateKey = fs.readFileSync('food-key.pem', 'utf8')
 var certificate = fs.readFileSync('23d1b9b749b4f6fc.crt', 'utf8')
-var credentials = {key: privateKey, cert: certificate};
+var credentials = {secureProtocol: 'SSLv23_method', secureOptions: constants.SSL_OP_NO_SSLv3, key: privateKey, cert: certificate};
 
 var path = require('path');
 var favicon = require('serve-favicon');

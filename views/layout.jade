@@ -4,11 +4,11 @@ html
     meta(name="viewport", content="width=device-width, initial-scale=1")
     title= title
     link(rel='stylesheet', type='text/css', href='/build/css/main.css')
-    ul.dropdown-content(id="dropdown1")
+    ul.dropdown-content.green(id="dropdown1")
       li
-        a(href='/home') Home
+        a.white-text(href='/home') Home
       li
-        a(href='/logout') Logout
+        a.white-text(href='/logout') Logout
   body
     script(src='/build/js/main.js' defer)
     nav.green.lighten-1
@@ -26,20 +26,34 @@ html
               a(href='/login') Login
           li
             a(href='/software') Software
+        ul.center.hide-on-med-and-down
+          div.row
+            div.col.input-field 
+              i.mdi-action-search.prefix
+              input#search.validate.search.white-text(type="text", placeholder="Search", style="padding-left:0")
         ul#slide-out.side-nav
           li
             a(href='/') FOODND
           if user
-            li
-              a(href='/home') Home
+            li.no-padding
+              ul.collapsible.collapsible-accordion
+                li
+                  a.collapsible-header User
+                    i.mdi-navigation-arrow-drop-down
+                  div.collapsible-body
+                    ul
+                      li
+                        a(href='/home') Home
+                      li
+                        a(href='/logout') Logout
           else 
             li
               a(href='/login') Login
           li
             a(href='/software') Software
-          if user
-            li
-              a(href='/logout') Logout
+          li
+            i.mdi-action-search.prefix(for="side_search")
+            input#side_search.validate.search(type="text", placeholder="Search")
         a(href='#', data-activates='slide-out').button-collapse
           i.mdi-navigation-menu
     block content

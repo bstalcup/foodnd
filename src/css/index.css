@@ -7,55 +7,9 @@
   width: 100%;
   font-style: light italic;
 }
-.superheader {
-  font-style: black;
-}
 .landing p {
   width: 100%;
 }
 div {
   display: block;
 }
-label.active{
-  color: #4CAF50 !important;
-}
-.prefix.active{
-  color: #4CAF50 !important;
-}
-input:focus:not([readonly]){
-  border-bottom: 1px solid #4CAF50 !important;
-  box-shadow: 0 1px 0 0 #4CAF50 !important; 
-}
-
-.autocomplete-selected .card-panel{
-  background-color: #00e676 !important;
-}
-.autocomplete-suggestion .card-panel {
-  border-radius: 0;
-}
-
-/*
-.ui-menu-item a {
-  text-decoration: none;
-  display: block;
-  padding: .2em .4em;
-  line-height: 1.5;
-  zoom: 1;
-}
-.ui-state-focus a {
-  text-decoration: none;
-  display: block;
-  padding: .2em .4em;
-  line-height: 1.5;
-  zoom: 1;
-}
-.ui-menu-item {
-  height:24px
-  padding:0 !important;
-  border:none !important;
-}
-.ui-menu-item.ui-state-focus {
-  border:none !important;
-  padding:0 !important;
-  background: green;
-} */

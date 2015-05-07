@@ -1,35 +1,71 @@
 extends layout
 
 block content
-  -var comments = {"1" : { "comment" : "This sucks", "rating" : "0", "software" : "Google" }, "2" : { "comment" : "This is Great!!", "rating" : "1", "software" : "Bing" } }
   div.valign-wrapper.green
     div.container
       div.row.center
-        div.center.card-panel.col.s8
-          h1.grey-text.text-darken-4 Welcome #{user.user_name}
+        div.col.s12.card-panel
+          h2 Welcome #{user.user_name} &nbsp;
+            i.mdi-action-account-circle.amber-text.accent-3
       div.row.center
-        li.divider.grey.darken-4
-      div.row.center
-        div.card.col.s12
+        div.card-panel.col.s12
           h3.grey-text.text-darken-4 Your Comments
-        div.card-panel
           div.container
-            ul.row
-              each entry in comments
-                if entry.rating == "0"
-                  li.card.col.s12.red.lighten-1
-                    h4 #{entry.software}
-                    div.card-panel
-                      p #{entry.comment}
-                else
-                  li.card.col.s12.blue.lighten-2
-                    h4 #{entry.software}
-                    div.card-panel
-                      p #{entry.comment}
-      div.row.center
-        li.divider.grey.darken-4
+              ul.row
+                each entry in comments
+                  if entry.rank == "-1"
+                    li.card.col.s12.review(comment-data="#{entry.com_id}")
+                      div.card-content.red.lighten-1
+                        div.card-title
+                          a.amber-text.text-accent-3(style="font-weight:700",href = "/software/#{entry.link}") #{entry.software}
+                          i.left.mdi-notification-do-not-disturb.black-text
+                          p.right.score
+                            b.black-text #{entry.score}
+                          if entry.voted == 1
+                              a.right.btn-floating.waves-effect.blue.darken-2.vote.voted.up.z-depth-1
+                                i.mdi-hardware-keyboard-arrow-up.blue-text.text-accent-1
+                              a.right.btn-floating.waves-effect.red.darken-3.vote.down.z-depth-1
+                                  i.mdi-hardware-keyboard-arrow-down
+                          else if entry.voted == -1
+                              a.right.btn-floating.waves-effect.blue.darken-2.vote.up.z-depth-1
+                                  i.mdi-hardware-keyboard-arrow-up
+                              a.right.btn-floating.waves-effect.red.darken-3.vote.voted.down.z-depth-1
+                                  i.mdi-hardware-keyboard-arrow-down.red-text.text-accent-1
+                          else
+                              a.right.btn-floating.waves-effect.blue.darken-2.vote.up.z-depth-1
+                                  i.mdi-hardware-keyboard-arrow-up
+                              a.right.btn-floating.waves-effect.red.darken-3.vote.down.z-depth-1
+                                  i.mdi-hardware-keyboard-arrow-down
+                      div.card-action.red.lighten-4
+                        p.flow-text(style='text-align:left') #{entry.text}
+                  else
+                    li.card.col.s12.review(comment-data="#{entry.com_id}")
+                      div.card-content.blue.lighten-1
+                        div.card-title
+                          a.amber-text.text-accent-4(style="font-weight:700",href = "/software/#{entry.link}") #{entry.software}
+                          i.left.mdi-navigation-check.black-text
+                          p.right.score
+                            b.black-text #{entry.score}
+                          if entry.voted == 1
+                                a.right.btn-floating.waves-effect.blue.darken-2.vote.voted.up.z-depth-1
+                                  i.mdi-hardware-keyboard-arrow-up.blue-text.text-accent-1
+                                a.right.btn-floating.waves-effect.red.darken-3.vote.down.z-depth-1
+                                  i.mdi-hardware-keyboard-arrow-down
+                              else if entry.voted == -1
+                                a.right.btn-floating.waves-effect.blue.darken-2.vote.up.z-depth-1
+                                  i.mdi-hardware-keyboard-arrow-up
+                                a.right.btn-floating.waves-effect.red.darken-3.vote.voted.down.z-depth-1
+                                  i.mdi-hardware-keyboard-arrow-down.red-text.text-accent-1
+                              else
+                                a.right.btn-floating.waves-effect.blue.darken-2.vote.up.z-depth-1
+                                  i.mdi-hardware-keyboard-arrow-up
+                                a.right.btn-floating.waves-effect.red.darken-3.vote.down.z-depth-1
+                                  i.mdi-hardware-keyboard-arrow-down  
+                      div.card-action.blue.lighten-4
+                        p.flow-text(style='text-align:left') #{entry.text}
       div.row.center
         div.card.col.s12
           h3.grey-text.text-darken-4 Your Other Possible Section
-          div.card-panel
-            p sample text
+          p sample text
+  p
+    !{JSON.stringify(comments)}

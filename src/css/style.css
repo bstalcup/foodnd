@@ -4,3 +4,61 @@ a {
 body {
   background: #eeeeee;
 }
+h1 {
+  font-weight: 100;
+}
+h2 {
+  font-weight: 200;
+}
+h3, h4, h5 {
+  font-weight: 300;
+}
+.review {
+  padding:0 !important;
+}
+.review .card-content {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+label.active{
+  color: #ffd740 !important;
+}
+.prefix.active{
+  color: #ffd740 !important;
+}
+input:focus:not([readonly]), textarea:focus:not([readonly]){
+  border-bottom: 1px solid #ffd740 !important;
+  box-shadow: 0 1px 0 0 #ffd740 !important;
+}
+
+.autocomplete-selected .card-panel{
+  background-color: #ffc400 !important;
+}
+.autocomplete-suggestion .card-panel {
+  border-radius: 0;
+}
+#search::-webkit-input-placeholder {
+   color:#FFF;
+}
+
+#search:-moz-placeholder { /* Firefox 18- */
+   color:#FFF;  
+}
+
+#search::-moz-placeholder {  /* Firefox 19+ */
+   color:#FFF;  
+}
+
+#search:-ms-input-placeholder {  
+   color:#FFF;  
+}
+.vote {
+  position:absolute;
+  top:76px;
+}
+.vote.up {
+  right:65px;
+}
+.vote.down {
+  right:25px;
+}

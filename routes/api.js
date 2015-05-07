@@ -187,20 +187,66 @@ router.post('/comments/:commentid/vote', function(req, res, next){
                 if ( err ) {
                   res.json({status: "error", message: "SQL Error, try again", error_code: 9003, "query": query});
                 } else {
-                  res.json({status:"success", "vote_id": rows[0]['AUTO_INCREMENT']-1, message: "Vote created"});
+                  id = rows[0]['AUTO_INCREMENT']-1
+                  query = 'select if(sum(rank) is null, 0, sum(rank)) as total from comment left join vote on comment.com_id = vote.com_id where comment.com_id = ' + req.params.commentid + ';';
+                  mysql.query(query, function(err, rows, fields){
+                    if( err ) {
+                      res.json({status: "error", message: "SQL Error, try again", error_code: 9003, "query": query});
+                    } else {
+                      res.json({status:"success", "vote_id": id, total: rows[0]['total'], message: "Vote created"});
+                    }
+                  })
                 }
               });  
             }
           });
         } else {
-          //update vote?
-          res.json({status: "error", message: "vote already exists", error_code: 9004});
+          query = 'update vote set rank = ' + req.body.rank + ' where com_id = ' + req.params.commentid + ' and user_id = ' + req.session.user.user_id + ';';
+          mysql.query(query, function(err, response){
+            if ( err ) {
+              res.json({status: "error", message: "Tried to update vote, but SQL error", info: err});
+            } else {
+              query = 'select if(sum(rank) is null, 0, sum(rank)) as total from comment left join vote on comment.com_id = vote.com_id where comment.com_id = ' + req.params.commentid + ';';
+              mysql.query(query, function(err, rows, fields){
+                if( err ) {
+                  res.json({status: "error", message: "SQL Error, try again", error_code: 9003, "query": query});
+                } else {
+                  res.json({status:"success", total: rows[0]['total'], message: "Vote updated"});
+                }
+              })
+            }
+          });
         }
       }
-    })
+    });
   }
 });
 
+
+router.delete('/comments/:commentid/vote', function(req, res, next){
+  if( req.session.user == undefined ) {
+    res.json({status: "error", message: "User must be logged in to vote"});
+  } else {
+    mysql = req.app.get('db');
+    query = 'delete from vote where user_id = ' + req.session.user.user_id + ' and com_id = ' + req.params.commentid + ';'
+    mysql.query(query, function(err, result){
+      if ( err ) {
+        res.json({status: "error", message: "SQL error", info: err, "query":query});
+      } else if (result.affectedRows == 0) {
+        res.json({status: "error", message: "No vote existed for logged in user on that comment"});
+      } else { 
+        query = 'select if(sum(rank) is null, 0, sum(rank)) as total from comment left join vote on comment.com_id = vote.com_id where comment.com_id = ' + req.params.commentid + ';';
+        mysql.query(query, function(err, rows, fields){
+          if ( err ) {
+            res.json({status: error, message: "SQL error", info: err, "query":query});
+          } else {
+            res.json({status: "success", message: "Vote removed", total: rows[0]['total']});
+          }
+        });
+      }
+    });
+  }
+});
 //search
 //
 //

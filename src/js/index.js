@@ -1,7 +1,7 @@
 $(function(){
   options = [{selector: '#introtext', offset: 100, callback: 'Materialize.fadeInImage("#introtext")'}]
   Materialize.scrollFire(options)
-  $('#search_field').autocomplete({
+  /*$('#search_field').autocomplete({
     serviceUrl: '/api/search/software/',
     onSelect: function (suggestion) {
         console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
@@ -30,6 +30,6 @@ $(function(){
      },
      showNoSuggestionNotice: true,
      noSuggestionNotice: '<div class="card-panel" style="margin:0">No results</div>'
-  });
+  });*/
 });
 
